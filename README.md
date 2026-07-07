@@ -74,7 +74,7 @@ capability gap through `consult` automatically.
 ### Agent skill (works across 70+ agents)
 
 ```bash
-npx skills add MaruPelkar/vaaya-mcp
+npx skills add vaaya-ai/vaaya-mcp
 ```
 
 Installs the [`vaaya` skill](skills/vaaya/SKILL.md) for Claude Code, Codex,
@@ -84,9 +84,9 @@ Vaaya MCP server if it's missing and keeps the install updated.
 
 ### As a plugin
 
-- **Claude Code**: `/plugin marketplace add MaruPelkar/vaaya-mcp` then `/plugin install vaaya@vaaya`
-- **Codex**: `codex plugin marketplace add MaruPelkar/vaaya-mcp` then install `vaaya` from the Plugins panel
-- **Gemini CLI**: `gemini extensions install https://github.com/MaruPelkar/vaaya-mcp`
+- **Claude Code**: `/plugin marketplace add vaaya-ai/vaaya-mcp` then `/plugin install vaaya@vaaya`
+- **Codex**: `codex plugin marketplace add vaaya-ai/vaaya-mcp` then install `vaaya` from the Plugins panel
+- **Gemini CLI**: `gemini extensions install https://github.com/vaaya-ai/vaaya-mcp`
 
 ## How it works
 

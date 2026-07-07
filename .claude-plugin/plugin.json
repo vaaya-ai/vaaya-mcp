@@ -8,7 +8,7 @@
     "url": "https://vaaya.ai"
   },
   "homepage": "https://vaaya.ai",
-  "repository": "https://github.com/MaruPelkar/vaaya-mcp",
+  "repository": "https://github.com/vaaya-ai/vaaya-mcp",
   "license": "MIT",
   "keywords": ["mcp", "media-generation", "video-generation", "product-demo", "web-scraping", "web-search", "deep-research", "market-research", "lead-enrichment", "gtm", "sales", "browser-automation", "code-sandbox", "email", "memory", "payments"]
 }
