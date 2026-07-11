@@ -1,0 +1,15 @@
+# Publishes every skill folder under skills/ to ClawHub (openclaw skills install vaaya).
+# Requires the CLAWHUB_TOKEN repo secret (ClawHub web UI → API token).
+name: Publish skills to ClawHub
+on:
+  push:
+    branches: [main]
+    paths: ['skills/**']
+  workflow_dispatch:
+jobs:
+  publish:
+    uses: openclaw/clawhub/.github/workflows/skill-publish.yml@main
+    with:
+      dry_run: false
+    secrets:
+      clawhub_token: ${{ secrets.CLAWHUB_TOKEN }}

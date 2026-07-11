@@ -1,0 +1,17 @@
+{
+  "name": "vaaya",
+  "owner": {
+    "name": "Vaaya",
+    "url": "https://vaaya.ai"
+  },
+  "metadata": {
+    "description": "Vaaya — your agent's gateway to the outside world. Pay for and run any external capability through one consult-first MCP."
+  },
+  "plugins": [
+    {
+      "name": "vaaya",
+      "source": "./",
+      "description": "Your agent's gateway to the outside world — pay for and run any external capability (media, web, compute, browser, email, calls, GTM) through one consult-first MCP."
+    }
+  ]
+}

@@ -44,6 +44,24 @@ If you can't run shell commands, have the user add the remote server instead:
 `https://vaaya.ai/mcp` (Streamable HTTP, OAuth 2.1) — in Claude Code that's
 `claude mcp add --transport http vaaya https://vaaya.ai/mcp` from a regular terminal.
 
+**Other clients** (the installer reaches Claude-family, Cursor, and Codex; elsewhere
+add the remote server):
+
+- **OpenClaw**: `openclaw mcp add vaaya --url https://vaaya.ai/mcp --transport streamable-http --auth oauth`,
+  then `openclaw mcp login vaaya` (browser approval).
+- **Hermes**: add to `~/.hermes/config.yaml`, then `/reload-mcp` (tools appear as
+  `mcp_vaaya_consult`, …):
+
+  ```yaml
+  mcp_servers:
+    vaaya:
+      url: "https://vaaya.ai/mcp"
+      auth: oauth
+  ```
+
+- **Anything else that speaks MCP**: point it at `https://vaaya.ai/mcp`
+  (Streamable HTTP, OAuth 2.1).
+
 **Staying current:** tools are proxied live from the backend, so new capabilities
 appear without reinstalling anything. If Vaaya calls start failing with transport or
 auth errors, re-run `npx -y @vaaya/mcp install` to refresh the setup, or
@@ -85,10 +103,11 @@ The GTM work has its own dedicated tool suite (Group 2 below).
 
 ## How to drive Vaaya
 
-There are **27 tools** in three groups: the **capability flow** (`consult` → `use` →
+The tools come in three groups: the **capability flow** (`consult` → `use` →
 `result` → `session`/`close`), the **GTM suite** (`gtm_*`), and the **Workers suite**
-(`worker_*`). Every tool is exposed to you as `mcp__vaaya__<name>` (e.g.
-`mcp__vaaya__consult`); short names are used below.
+(`worker_*`). The live list is proxied from the backend and can include more
+(e.g. `trade_*`); `consult` routes you regardless. Every tool is exposed to you as
+`mcp__vaaya__<name>` (e.g. `mcp__vaaya__consult`); short names are used below.
 
 ### Group 1 — Capability flow (always start with consult)
 
@@ -112,6 +131,12 @@ consult({ intent: "make a hero image for my landing page, room for a headline" }
 `{ service, action, params, max_cost_cents }` → `{ ok, data, charged_cents,
 balance_remaining_cents, transaction_id }`. Failed calls are never charged. Long-running
 work returns `{ async: true, job_id }`.
+
+Payment errors (HTTP 402, `ok:false`): `credits_required` — the account is out of
+credits; `gated_cap` — free credits cover only $2 of premium services (enrichment,
+media generation, compute, scraping). Both include a `credits_url`. Do NOT retry —
+relay `credits_url` to the user so they can buy a prepaid pack ($10 / $30 / $100),
+then continue once they've topped up.
 
 ```
 use({ service:"…", action:"generate", params:{…}, max_cost_cents:20 })
@@ -190,7 +215,7 @@ its `kind`. Creating is free; each scheduled run spends under the user's workers
 ### Onboarding
 - `vaaya_test_connection({})` — one-time connectivity check the user runs after install.
 
-## Full tool reference (27)
+## Full tool reference
 
 | Tool | Params | Purpose |
 |---|---|---|

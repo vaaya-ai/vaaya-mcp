@@ -34,8 +34,10 @@ the payment *is* the auth). Failed calls are never charged.
 ### One command (recommended)
 
 ```bash
-npx vaaya-cli install
+npx @vaaya/mcp install
 ```
+
+(`npx vaaya-cli install` runs the same installer.)
 
 Sets up the Vaaya MCP server for every agent it detects on your machine —
 Claude Code, Claude Desktop, Cursor, Codex — plus the agent skill.
@@ -54,6 +56,22 @@ Claude Code:
 
 ```bash
 claude mcp add --transport http vaaya https://vaaya.ai/mcp
+```
+
+OpenClaw:
+
+```bash
+openclaw mcp add vaaya --url https://vaaya.ai/mcp --transport streamable-http --auth oauth
+openclaw mcp login vaaya
+```
+
+Hermes (`~/.hermes/config.yaml`):
+
+```yaml
+mcp_servers:
+  vaaya:
+    url: "https://vaaya.ai/mcp"
+    auth: oauth
 ```
 
 On first use your client runs the OAuth flow in the browser; approve and you're
@@ -84,7 +102,7 @@ Vaaya MCP server if it's missing and keeps the install updated.
 
 ### As a plugin
 
-- **Claude Code**: `/plugin marketplace add vaaya-ai/vaaya-mcp` then `/plugin install vaaya@vaaya`
+- **Claude Code**: `/plugin marketplace add vaaya-ai/vaaya-mcp` then `/plugin install vaaya@vaaya` — bundles the remote MCP server, the `vaaya` skill, and the SessionStart reminder hook
 - **Codex**: `codex plugin marketplace add vaaya-ai/vaaya-mcp` then install `vaaya` from the Plugins panel
 - **Gemini CLI**: `gemini extensions install https://github.com/vaaya-ai/vaaya-mcp`
 
@@ -101,7 +119,7 @@ Vaaya MCP server if it's missing and keeps the install updated.
 
 Plus a full GTM suite (`gtm_leads_find`, `gtm_lead_enrich`, `gtm_signal_create`,
 `gtm_segments`, `gtm_message`, `gtm_replies`, …) and scheduled monitoring
-workers (`worker_create`, `worker_findings`, …) — 34 tools total.
+workers (`worker_create`, `worker_findings`, …) — the tool list is proxied live from the backend.
 
 ## Example prompts
 

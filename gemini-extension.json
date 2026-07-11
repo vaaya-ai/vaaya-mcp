@@ -1,6 +1,6 @@
 {
   "name": "vaaya",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Paid superpowers for any agent: media & video generation, product demo videos, web search & scraping, deep/market research, GTM & sales enrichment, code sandboxes, browser automation, email, memory — pay-per-call, no API keys.",
   "mcpServers": {
     "vaaya": {

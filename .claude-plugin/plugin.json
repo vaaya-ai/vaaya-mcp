@@ -1,7 +1,7 @@
 {
   "name": "vaaya",
   "description": "Paid superpowers for any agent: media & video generation, product demo videos, web search & scraping, deep/market research, GTM & sales enrichment, code sandboxes, browser automation, email, memory — pay-per-call, no API keys.",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "author": {
     "name": "Vaaya",
     "email": "support@vaaya.ai",
@@ -10,5 +10,22 @@
   "homepage": "https://vaaya.ai",
   "repository": "https://github.com/vaaya-ai/vaaya-mcp",
   "license": "MIT",
-  "keywords": ["mcp", "media-generation", "video-generation", "product-demo", "web-scraping", "web-search", "deep-research", "market-research", "lead-enrichment", "gtm", "sales", "browser-automation", "code-sandbox", "email", "memory", "payments"]
+  "keywords": [
+    "mcp",
+    "media-generation",
+    "video-generation",
+    "product-demo",
+    "web-scraping",
+    "web-search",
+    "deep-research",
+    "market-research",
+    "lead-enrichment",
+    "gtm",
+    "sales",
+    "browser-automation",
+    "code-sandbox",
+    "email",
+    "memory",
+    "payments"
+  ]
 }
