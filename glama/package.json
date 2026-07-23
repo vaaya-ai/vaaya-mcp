@@ -1,0 +1,14 @@
+{
+  "name": "vaaya-glama-introspection-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local stdio MCP shim that mirrors the anonymous tool surface of the hosted Vaaya MCP (https://vaaya.ai/mcp) so registries like Glama can introspect it headlessly. Discovery only — tool execution requires OAuth against the hosted server.",
+  "main": "server.mjs",
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0"
+  }
+}

@@ -1,0 +1,578 @@
+{
+  "tools": [
+    {
+      "name": "vaaya_test_connection",
+      "title": "Test Vaaya Connection",
+      "description": "Round-trip ping that confirms the agent \u2192 Vaaya connection and whether the user is linked. Returns { ok:true, userId, scope, version, server_time } when linked, or { ok:false, needs_auth:true, verification_uri, signup_uri, instructions } when not linked yet \u2014 relay that to the user so they can connect (and sign up if new).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "description": "True when the agent is linked to a Vaaya user."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Linked Vaaya user id."
+          },
+          "scope": {
+            "type": "string",
+            "description": "Space-separated authorized scopes."
+          },
+          "version": {
+            "type": "string",
+            "description": "Server version."
+          },
+          "server_time": {
+            "type": "string",
+            "description": "Server time, ISO 8601."
+          },
+          "needs_auth": {
+            "type": "boolean",
+            "description": "True when this agent is not linked to a Vaaya user yet."
+          },
+          "verification_uri": {
+            "type": "string",
+            "description": "Where the user approves the connection."
+          },
+          "signup_uri": {
+            "type": "string",
+            "description": "Where a new user signs up."
+          },
+          "instructions": {
+            "type": "string",
+            "description": "What to tell the user to get connected."
+          }
+        },
+        "additionalProperties": true
+      },
+      "annotations": {
+        "title": "Test Vaaya Connection",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "vaaya_onboard",
+      "title": "Get Onboarding Instructions",
+      "description": "Public onboarding hint for an agent whose user isn't linked to Vaaya yet. Returns where the human should go to connect (and sign up if new). Call this when vaaya_test_connection reports needs_auth, or any tool returns unauthorized, then relay the instructions to the user.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "already_linked": {
+            "type": "boolean",
+            "description": "True when the agent is already connected."
+          },
+          "message": {
+            "type": "string",
+            "description": "Status message to relay to the user."
+          },
+          "needs_auth": {
+            "type": "boolean",
+            "description": "True when this agent is not linked to a Vaaya user yet."
+          },
+          "verification_uri": {
+            "type": "string",
+            "description": "Where the user approves the connection."
+          },
+          "signup_uri": {
+            "type": "string",
+            "description": "Where a new user signs up."
+          },
+          "instructions": {
+            "type": "string",
+            "description": "What to tell the user to get connected."
+          }
+        },
+        "additionalProperties": true
+      },
+      "annotations": {
+        "title": "Get Onboarding Instructions",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "vaaya_account",
+      "title": "Show Connected Account & Balance",
+      "description": "Show which Vaaya account this connection is linked to and its money state. Returns { email, name, user_id, connected_client, scopes, balance_cents, premium_allowance, credits_url, switch_account }. Call it whenever the user asks \"which account is connected\", \"what's my balance\", \"how much premium/media credit is left\", or \"how do I switch accounts\" \u2014 and relay the answer. `premium_allowance` is the gated free-tier ledger for premium services (media generation, enrichment, compute, scraping): it is SEPARATE from wallet balance, and only credit-pack purchases raise it.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "description": "True when the call succeeded."
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of the connected Vaaya account."
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the connected user."
+          },
+          "user_id": {
+            "type": "string",
+            "description": "Vaaya user id."
+          },
+          "connected_client": {
+            "type": "string",
+            "description": "OAuth client name this connection was made through."
+          },
+          "scopes": {
+            "type": "array",
+            "description": "Authorized scopes for this connection."
+          },
+          "balance_cents": {
+            "type": "number",
+            "description": "Wallet balance remaining, in cents."
+          },
+          "premium_allowance": {
+            "type": "object",
+            "description": "Gated free-tier state for premium services: cap, purchased, spent, remaining (cents). Separate from wallet balance."
+          },
+          "credits_url": {
+            "type": "string",
+            "description": "Where the user buys credit packs."
+          },
+          "switch_account": {
+            "type": "string",
+            "description": "How to connect a different account \u2014 relay to the user."
+          },
+          "needs_auth": {
+            "type": "boolean",
+            "description": "True when this agent is not linked to a Vaaya user yet."
+          },
+          "verification_uri": {
+            "type": "string",
+            "description": "Where the user approves the connection."
+          },
+          "signup_uri": {
+            "type": "string",
+            "description": "Where a new user signs up."
+          },
+          "instructions": {
+            "type": "string",
+            "description": "What to tell the user to get connected."
+          }
+        },
+        "additionalProperties": true
+      },
+      "annotations": {
+        "title": "Show Connected Account & Balance",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "vaaya_logout",
+      "title": "Disconnect / Switch Vaaya Account",
+      "description": "Disconnect this client from the current Vaaya account: revokes this connection's authorization server-side, so every later call fails with 401 until the user reconnects. Call it when the user asks to log out, sign out, disconnect, or switch Vaaya accounts \u2014 then relay the returned switch steps VERBATIM (the browser sign-out step is what actually enables switching accounts).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "description": "True when the call succeeded."
+          },
+          "logged_out": {
+            "type": "boolean",
+            "description": "True when the authorization was revoked."
+          },
+          "message": {
+            "type": "string",
+            "description": "What happened \u2014 relay to the user."
+          },
+          "to_switch_account": {
+            "type": "string",
+            "description": "Exact steps to reconnect with a different account \u2014 relay verbatim."
+          },
+          "error": {
+            "type": "string",
+            "description": "Error code/message when ok=false."
+          }
+        },
+        "additionalProperties": true
+      },
+      "annotations": {
+        "title": "Disconnect / Switch Vaaya Account",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "consult",
+      "title": "Consult Vaaya \u2014 Plan Any Capability",
+      "description": "Vaaya's consultant. Describe ANY external capability you or the user might want \u2014 generate an image/video, search or scrape the web, run code in a sandbox, send/receive email, enrich a contact \u2014 and it helps figure out the best way, teaching the user what Vaaya can do. It is CONVERSATIONAL and remembers prior turns. It returns: mode='converse' (a reply to RELAY to the user verbatim \u2014 questions, options, ideas; get the user's response and call consult again with it, so the conversation continues), mode='call' (an ordered list of calls to run via `use`, with a message explaining the preferred choice + alternatives + why; multi-step results may contain placeholders like '<from step 1: sandbox_id>' \u2014 run earlier steps first and substitute), or mode='unsupported'. Every reply includes `suggestions` (2-3 things to do next) \u2014 surface these to the user. AFTER you run a `call` result's calls via `use`, call consult ONE more time with a short note on the outcome (what was produced / any failures) \u2014 it returns result-aware, Vaaya-grounded next steps to offer the user (the `call` result's `after_running` field reminds you). Call consult whenever you hit a capability gap or the user wants to know what's possible. It does NOT execute or bill \u2014 you run returned calls via `use`. ALWAYS show the user consult's `message` and `suggestions` and let them steer.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "intent": {
+            "type": "string",
+            "description": "Plain-English description of what you want, or your answer to a previous clarify question. Be concrete \u2014 include the prompt text, URL, budget, or target the task implies."
+          }
+        },
+        "required": [
+          "intent"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "converse",
+              "call",
+              "unsupported"
+            ],
+            "description": "How to proceed: relay 'converse', run 'call', or report 'unsupported'."
+          },
+          "message": {
+            "type": "string",
+            "description": "Consultant's reply \u2014 relay to the user verbatim."
+          },
+          "calls": {
+            "type": "array",
+            "description": "Ordered list of { service, action, params, max_cost_cents, why } to run via `use`."
+          },
+          "suggestions": {
+            "type": "array",
+            "description": "2-3 suggested next steps to surface to the user."
+          },
+          "after_running": {
+            "type": "string",
+            "description": "Reminder to call consult again with the outcome."
+          },
+          "run_with": {
+            "type": "string",
+            "description": "Which tool to execute the calls with."
+          },
+          "if_use_unavailable": {
+            "type": "string",
+            "description": "What to do when the `use` tool is missing from your tool list \u2014 relay to the user."
+          },
+          "if_tools_missing": {
+            "type": "string",
+            "description": "What to do when a named first-party tool (gtm_*, worker_*, \u2026) is missing from your tool list: it was just unlocked \u2014 refresh the tool list; never improvise a fallback."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Why the request is unsupported (mode='unsupported')."
+          }
+        },
+        "additionalProperties": true
+      },
+      "annotations": {
+        "title": "Consult Vaaya \u2014 Plan Any Capability",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "use",
+      "title": "Execute a Paid Service Call",
+      "description": "Execute a single call that `consult` handed you, and bill on success. Used for any external capability (image/video/audio generation, web search, scraping, email, document parsing, code sandbox, browser automation, embeddings, etc.). The server validates params against a registered schema and proxies to the upstream \u2014 you never pass URLs or API keys. Always get the exact (service, action, params, max_cost_cents) from `consult` first \u2014 don't guess them.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "service": {
+            "type": "string",
+            "description": "Service identifier, taken verbatim from the call `consult` returned."
+          },
+          "action": {
+            "type": "string",
+            "description": "Action within the service (e.g. \"search\", \"generate\", \"create_session\"), taken from the call `consult` returned."
+          },
+          "params": {
+            "type": "object",
+            "description": "Parameters from the call `consult` returned, validated against the service's registered schema.",
+            "additionalProperties": true
+          },
+          "max_cost_cents": {
+            "type": "number",
+            "description": "Hard ceiling in cents on what you will be charged. `use` refuses if the registry price exceeds this. Pick at least 2\u00d7 the listed price so retries work."
+          },
+          "intent": {
+            "type": "string",
+            "description": "Optional: the one-line `why` from the consult call you're running (or the user's goal for it). Used only for internal transaction visibility \u2014 it never affects validation, billing, or execution. Pass it through when you have it."
+          }
+        },
+        "required": [
+          "service",
+          "action",
+          "params",
+          "max_cost_cents"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "description": "True when the call succeeded."
+          },
+          "data": {
+            "description": "Upstream result payload (URLs, text, ids, \u2026)."
+          },
+          "async": {
+            "type": "boolean",
+            "description": "True when the job runs asynchronously \u2014 poll with `result`."
+          },
+          "job_id": {
+            "type": "string",
+            "description": "Async job id for `result` polling."
+          },
+          "charged_cents": {
+            "type": "number",
+            "description": "Amount billed for this call, in cents."
+          },
+          "balance_remaining_cents": {
+            "type": "number",
+            "description": "Wallet balance remaining, in cents."
+          },
+          "transaction_id": {
+            "type": "string",
+            "description": "Vaaya transaction id for this call."
+          },
+          "protocol": {
+            "type": "string",
+            "description": "Settlement rail used (x402 / mpp / ledger)."
+          },
+          "status": {
+            "type": "number",
+            "description": "Upstream HTTP status when the call failed."
+          },
+          "error": {
+            "type": "string",
+            "description": "Error code/message when ok=false."
+          }
+        },
+        "additionalProperties": true
+      },
+      "annotations": {
+        "title": "Execute a Paid Service Call",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "result",
+      "title": "Poll an Async Job",
+      "description": "Fetch the status + output of an async job started by `use` (e.g. a video render). Pass the `job_id` that `use` returned with `{ async: true }`. Returns `{ status, result?, progress?, charged_cents }`: `running` (still working \u2014 when the job reports it, `progress` carries `{ phase, percent, rendered_frames, total_frames, eta_sec }` and `hint` is a one-line summary like \"rendering 42% (380/900 frames, ~120s left)\", so you can tell real progress from a hang; wait a bit and call again), `succeeded` (`result` holds the output, e.g. the video URL; the call is charged now), or `failed`/`cancelled` (no charge; on `failed`, read `error` AND `hint` \u2014 `hint` carries the service's usage notes, which usually explain how to fix the call). Safe to call repeatedly \u2014 it never starts new work or double-charges. ALWAYS use this to retrieve an async result instead of re-running `use` (re-running starts a new paid job).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "description": "The job_id returned by an async `use` call."
+          }
+        },
+        "required": [
+          "job_id"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "description": "True when the call succeeded."
+          },
+          "job_id": {
+            "type": "string",
+            "description": "The polled job id."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "running",
+              "succeeded",
+              "failed",
+              "cancelled"
+            ],
+            "description": "Job state."
+          },
+          "result": {
+            "description": "Final output when succeeded."
+          },
+          "progress": {
+            "type": "object",
+            "description": "Progress detail (e.g. percent) while running."
+          },
+          "hint": {
+            "type": "string",
+            "description": "Human-readable progress summary."
+          },
+          "charged_cents": {
+            "type": "number",
+            "description": "Amount billed for this call, in cents."
+          },
+          "balance_remaining_cents": {
+            "type": "number",
+            "description": "Wallet balance remaining, in cents."
+          },
+          "error": {
+            "type": "string",
+            "description": "Error code/message when ok=false."
+          }
+        },
+        "additionalProperties": true
+      },
+      "annotations": {
+        "title": "Poll an Async Job",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "session",
+      "title": "Run Code in a Sandbox Session",
+      "description": "Run a command or code in an open E2B sandbox session (started by `use` with action `create_session`, which returns a `session_id`). Pass `session_id` plus either `command` (a shell command) or `code` (+ optional `language`: python/javascript/bash). Returns stdout/stderr/exit_code (or the code result). The sandbox stays alive \u2014 and billed per second of uptime \u2014 until you `close` it; re-running reuses the SAME box, so filesystem + process state persist between calls. ALWAYS `close` when done.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "description": "The session_id returned by create_session."
+          },
+          "command": {
+            "type": "string",
+            "description": "Shell command to run in the sandbox."
+          },
+          "code": {
+            "type": "string",
+            "description": "Code to execute (alternative to `command`)."
+          },
+          "language": {
+            "type": "string",
+            "description": "Language for `code`: python (default), javascript, or bash."
+          }
+        },
+        "required": [
+          "session_id"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "description": "True when the call succeeded."
+          },
+          "stdout": {
+            "type": "string",
+            "description": "Captured standard output."
+          },
+          "stderr": {
+            "type": "string",
+            "description": "Captured standard error."
+          },
+          "exit_code": {
+            "type": "number",
+            "description": "Process exit code."
+          },
+          "result": {
+            "description": "Structured result, when the runtime returns one."
+          },
+          "error": {
+            "type": "string",
+            "description": "Error code/message when ok=false."
+          }
+        },
+        "additionalProperties": true
+      },
+      "annotations": {
+        "title": "Run Code in a Sandbox Session",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "close",
+      "title": "Close a Sandbox Session",
+      "description": "Close an E2B sandbox session and stop its billing. Pass the `session_id`. Captures the final metered uptime cost and releases the hold. ALWAYS call this when finished with a session \u2014 an open session keeps billing per second of uptime. Safe to call repeatedly (idempotent).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "description": "The session_id to close."
+          }
+        },
+        "required": [
+          "session_id"
+        ]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "description": "True when the call succeeded."
+          },
+          "session_id": {
+            "type": "string",
+            "description": "The closed session id."
+          },
+          "status": {
+            "type": "string",
+            "description": "Final session state."
+          },
+          "charged_cents": {
+            "type": "number",
+            "description": "Total metered uptime cost, in cents."
+          },
+          "balance_remaining_cents": {
+            "type": "number",
+            "description": "Wallet balance remaining, in cents."
+          },
+          "error": {
+            "type": "string",
+            "description": "Error code/message when ok=false."
+          }
+        },
+        "additionalProperties": true
+      },
+      "annotations": {
+        "title": "Close a Sandbox Session",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    }
+  ]
+}
