@@ -2,7 +2,7 @@
   <img src="https://vaaya.ai/icon.png" width="96" height="96" alt="Vaaya" />
 </p>
 
-# Vaaya MCP — paid superpowers for any agent
+# Vaaya MCP — superpowers for any agent
 
 [Vaaya](https://vaaya.ai) is the **agent payment system**: one MCP server that
 lets any agent call paid APIs **pay-per-call, with no API keys**. Instead of
