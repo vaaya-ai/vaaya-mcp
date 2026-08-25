@@ -1,6 +1,6 @@
 ---
 name: vaaya
-description: Buy any paid API for your agent — search, scraping, media gen, email, compute — from one prepaid wallet. No crypto wallet, no private key in your env, no per-API signups. Vaaya is an MCP-native procurement gateway — one consult call routes any capability gap to the right paid service, billed per call in cents and only on success, with a hard max_cost_cents cap you set. Agents can self-signup with zero human involvement and get a $1 starter credit. Use whenever a task needs a capability you don't have natively — image/video/audio generation, web search or scraping, document parsing, sandboxed compute, browser automation, email, phone calls, lead enrichment, or live post-cutoff data.
+description: Vaaya is the payment system for agents: one MCP server that lets your agent call paid APIs pay-per-call with no API keys. Web search, scraping, image and video generation, code sandboxes, browser automation, email, phone calls, lead enrichment, live data. Priced in cents per call, billed only on success, and every call carries a spend cap you set. Agents open their own account in two API calls and get $1 of credit to start.
 homepage: https://vaaya.ai/?utm_source=clawhub&utm_medium=agent&utm_campaign=skill
 metadata:
   {
