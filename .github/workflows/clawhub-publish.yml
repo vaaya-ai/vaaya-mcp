@@ -1,11 +1,16 @@
-# Publishes skills/vaaya to ClawHub (openclaw skills install vaaya) on every
-# push that touches skills/. Direct CLI job — no cross-org reusable workflow.
+# Publishes clawhub/vaaya to ClawHub (openclaw skills install vaaya) on every
+# push that touches clawhub/. Direct CLI job — no cross-org reusable workflow.
 # Needs the CLAWHUB_TOKEN repo secret (ClawHub web UI → API token).
+#
+# NOTE: skills/vaaya is the Claude Code plugin skill (generic, consult-first);
+# clawhub/vaaya is the OpenClaw-format variant (agent self-signup + openclaw
+# mcp add). Source of truth for clawhub/vaaya is the monorepo's
+# packages/skills/vaaya-openclaw — sync it here, never edit in place.
 name: Publish skills to ClawHub
 on:
   push:
     branches: [main]
-    paths: ['skills/**']
+    paths: ['clawhub/**']
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,8 +27,8 @@ jobs:
           CLAWHUB_TOKEN: ${{ secrets.CLAWHUB_TOKEN }}
         run: |
           npx -y clawhub@latest login --token "$CLAWHUB_TOKEN"
-          npx -y clawhub@latest skill publish skills/vaaya \
+          npx -y clawhub@latest skill publish clawhub/vaaya \
             --slug vaaya --name "Vaaya" \
             --changelog "Sync from vaaya-ai/vaaya-mcp @ $GITHUB_SHA" \
             --source-repo vaaya-ai/vaaya-mcp --source-commit "$GITHUB_SHA" \
-            --source-ref "$GITHUB_REF_NAME" --source-path skills/vaaya
+            --source-ref "$GITHUB_REF_NAME" --source-path clawhub/vaaya
