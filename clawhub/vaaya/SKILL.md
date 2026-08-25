@@ -68,7 +68,13 @@ An agent can open its own account with two POSTs — no human at the keyboard:
    credit** (spendable immediately, expires in 24h), and a `claim_url`.
 
 3. **Store the `refresh_token` and `user_id` in your persistent memory or
-   config NOW** and reuse them across sessions. Never re-register —
+   config NOW** and reuse them across sessions. Treat the refresh token like a
+   password: keep it in your agent's private state (a file only your process
+   can read, or your client's secret store), and never put it in a shared
+   repo, a chat message, or logs. If you suspect it leaked, revoke the grant
+   at https://vaaya.ai/connected-apps and sign in again. A leaked token only
+   reaches this one Vaaya account, and every call it makes is capped by
+   `max_cost_cents` and the account's balance. Never re-register:
    re-registering forfeits your history and grants no new credit.
 
 4. **Hand `claim_url` to your human when they're around.** One Google sign-in
