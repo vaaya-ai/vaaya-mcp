@@ -2,14 +2,36 @@
   <img src="https://vaaya.ai/icon.png" width="96" height="96" alt="Vaaya" />
 </p>
 
-# Vaaya MCP — superpowers for any agent
+# Vaaya MCP — payments for any agent
 
-[Vaaya](https://vaaya.ai) is the **agent payment system**: one MCP server that
-lets any agent call paid APIs **pay-per-call, with no API keys**. Instead of
-wiring up a dozen vendor keys, your agent asks Vaaya's conversational `consult`
-tool for anything it can't do, gets back the exact call to run, and executes it
-with `use` — billed on success only (x402 USDC on Base, Stripe MPP, or Tempo;
-the payment *is* the auth). Failed calls are never charged.
+MCP server for AI agent payments. An agent in Cursor, Claude Code, Claude
+Desktop, Codex, or any MCP host can call paid APIs (search, scraping, contact
+data, public records, compute, media, research) from one balance, with a spend
+ceiling it states on every call, and no vendor keys anywhere in its
+environment. Billed only on success (x402 USDC on Base, Stripe MPP, or Tempo);
+a refused or failed call costs nothing.
+
+```bash
+npx @vaaya/mcp install            # Cursor, Claude Code, Claude Desktop, Codex
+claude mcp add --transport http vaaya https://vaaya.ai/mcp
+```
+
+First paid call: `consult` returns a priced plan; `use({ service, action,
+params, max_cost_cents })` runs one line of it. If the quoted price is above
+`max_cost_cents`, the call is refused before it reaches the provider and the
+reason comes back:
+
+```json
+{ "error": "over_max", "message": "price is 5¢ but max_cost_cents was 1", "price_cents": 5 }
+```
+
+Runnable examples: [`examples/pay-for-an-api`](examples/pay-for-an-api) (one
+call allowed, one refused), [`examples/cursor`](examples/cursor),
+[`examples/claude`](examples/claude). Guides:
+[give an agent a budget](https://vaaya.ai/blog/give-an-ai-agent-a-budget),
+[Cursor setup](https://vaaya.ai/blog/cursor-agent-mcp-payments),
+[Claude setup](https://vaaya.ai/blog/claude-mcp-payments),
+[what is an AI agent wallet](https://vaaya.ai/blog/what-is-an-ai-agent-wallet).
 
 ## What your agent can do through Vaaya
 

@@ -1,0 +1,5 @@
+{
+  "mcpServers": {
+    "vaaya": { "command": "npx", "args": ["-y", "@vaaya/mcp"] }
+  }
+}

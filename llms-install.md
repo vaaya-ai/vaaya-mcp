@@ -55,6 +55,26 @@ goal; it returns the exact `use(service, action, params, max_cost_cents)`
 call(s) to run. Never invent service/action names. Billing happens only on
 successful `use` calls, capped by `max_cost_cents`.
 
+## What an agent wallet is in Vaaya
+
+A Vaaya account is a wallet the agent holds *permission* to, not money. A
+person or company owns the account; each agent gets an API key with a policy:
+the categories it may spend in (Data, Search, Scraping, Media, Compute, LLM
+router, Outbound), a monthly limit, and a `max_cost_cents` ceiling the agent
+states on every call. The account settles with providers on x402 (USDC on
+Base), Stripe MPP, or Tempo. The agent never sees a card, a vendor key, or a
+private key.
+
+An agent can open its own provisional account with no human present:
+
+1. `POST https://vaaya.ai/oauth/register` with `{ "client_name": "...", "grant_types": ["refresh_token"] }`
+2. `POST https://vaaya.ai/api/v1/signup/agent` with `{ "client_id": "..." }` → tokens, a $1 starter credit (24h), and a `claim_url`
+3. Store the `refresh_token` and `user_id` in persistent memory; hand the `claim_url` to your person when they are around
+
+Full flow and funding options (welcome credit up to $10, GitHub-backed credit
+line, prepaid packs): https://vaaya.ai/llms.txt and
+https://vaaya.ai/blog/create-and-fund-an-ai-agent-wallet
+
 ## Uninstall / revoke
 
 - Remove the config block.
