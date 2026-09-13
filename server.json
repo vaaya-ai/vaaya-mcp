@@ -3,7 +3,7 @@
   "name": "ai.vaaya/mcp",
   "title": "Vaaya",
   "description": "Paid APIs and tokenized shares for agents. Prepaid funding, including authorized Instinct checkout.",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "websiteUrl": "https://vaaya.ai",
   "repository": {
     "url": "https://github.com/vaaya-ai/vaaya-mcp",
@@ -13,7 +13,7 @@
     {
       "src": "https://vaaya.ai/icon.png",
       "sizes": [
-        "512x512"
+        "508x512"
       ],
       "mimeType": "image/png"
     }
@@ -29,7 +29,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@vaaya/mcp",
-      "version": "0.6.7",
+      "version": "0.6.8",
       "transport": {
         "type": "stdio"
       }
