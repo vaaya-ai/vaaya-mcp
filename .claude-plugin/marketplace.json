@@ -5,13 +5,13 @@
     "url": "https://vaaya.ai"
   },
   "metadata": {
-    "description": "Vaaya — your agent's gateway to the outside world. Pay for and run any external capability through one consult-first MCP."
+    "description": "Pay for APIs and buy supported tokenized shares with prepaid funds. Search, research, media, data, compute and more through one Vaaya account. Agent purchase and Instinct funding guide: https://vaaya.ai/llms.txt"
   },
   "plugins": [
     {
       "name": "vaaya",
       "source": "./",
-      "description": "Your agent's gateway to the outside world — pay for and run any external capability (media, web, compute, browser, email, calls, GTM) through one consult-first MCP."
+      "description": "Pay for APIs and buy supported tokenized shares with prepaid funds. Search, research, media, data, compute and more through one Vaaya account. Agent purchase and Instinct funding guide: https://vaaya.ai/llms.txt"
     }
   ]
 }

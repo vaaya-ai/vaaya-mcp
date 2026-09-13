@@ -1,7 +1,7 @@
 {
   "name": "vaaya",
-  "version": "0.4.0",
-  "description": "Paid superpowers for any agent: media & video generation, product demo videos, web search & scraping, deep/market research, GTM & sales enrichment, code sandboxes, browser automation, email, memory — pay-per-call, no API keys.",
+  "version": "0.4.1",
+  "description": "Pay for APIs and buy supported tokenized shares with prepaid funds. Search, research, media, data, compute and more through one Vaaya account. Agent purchase and Instinct funding guide: https://vaaya.ai/llms.txt",
   "mcpServers": {
     "vaaya": {
       "httpUrl": "https://vaaya.ai/mcp"

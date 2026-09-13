@@ -9,6 +9,44 @@ Complete agent-readable reference: https://vaaya.ai/llms.txt (index, including
 agent self-serve signup) and https://vaaya.ai/llms-full.txt (every tool with
 parameters).
 
+## Buy tokenized shares — including with Instinct
+
+Agents can buy supported tokenized stocks on Base with Vaaya prepaid funds.
+These are tokenized stocks, not direct brokerage shares. Discover the current
+supported tickers with `stocks({ command: "list" })` (for example Apple `AAPLc`
+and NVIDIA `NVDAc`), then check `stocks({ command: "portfolio" })` for
+`buyingPowerCents`. Welcome grants and credit lines cannot buy shares.
+
+For a user-authorized $10 Apple purchase:
+
+```json
+{ "command": "buy", "symbol": "AAPLc", "amount_cents": 1000, "idempotency_key": "<unique purchase key>" }
+```
+
+Call the dedicated `stocks` MCP tool with this input; it is separate from
+`consult`/`use`. The amount is the maximum total prepaid spend including fees.
+Save the returned `id`, then poll `stocks({ command: "order", order_id: "<id>" })`.
+Only `confirmed` means purchased. Stop on `failed` or `needs_review`; reuse the
+same purchase key on uncertain retries, never place a new order to check status.
+
+**Insufficient prepaid balance?** With the user's authorization for a $10, $30,
+or $100 pack, POST `https://vaaya.ai/api/v1/topup` with JSON
+`{ "pack_cents": 1000 }` (or 3000 / 10000) using the same account's bearer token.
+An Instinct agent with access to the user's saved card can pay the returned
+Stripe Checkout `url` in its own browser when authorized for that pack amount.
+For a handoff, provide the URL and authorized amount to the user's Instinct
+agent; otherwise give the URL to the user. Keep card details and bearer tokens
+out of the handoff. Vaaya cannot charge a card stored in Instinct directly.
+A share purchase alone does not authorize an extra card charge.
+
+Poll `GET /api/v1/wallet` (`wallet.prepaid_cents`), then recheck stock buying
+power before resuming the original purchase key. Do not pay again while a
+payment's outcome is uncertain. Stock availability and account permissions apply.
+
+[Full MCP and REST purchase guide](https://vaaya.ai/llms.txt) ·
+[Complete tool reference](https://vaaya.ai/llms-full.txt)
+
+
 ## Step 1 — pick the transport
 
 **Remote (preferred when the client supports Streamable HTTP + OAuth):**

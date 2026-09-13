@@ -1,7 +1,7 @@
 {
   "name": "vaaya",
-  "version": "0.4.0",
-  "description": "Paid superpowers for any agent: media & video generation, product demo videos, web search & scraping, deep/market research, GTM & sales enrichment, code sandboxes, browser automation, email, memory — pay-per-call, no API keys.",
+  "version": "0.4.1",
+  "description": "Pay for APIs and buy supported tokenized shares with prepaid funds. Search, research, media, data, compute and more through one Vaaya account. Agent purchase and Instinct funding guide: https://vaaya.ai/llms.txt",
   "author": {
     "name": "Vaaya",
     "email": "support@vaaya.ai",
@@ -26,14 +26,17 @@
     "code-sandbox",
     "email",
     "memory",
-    "payments"
+    "payments",
+    "tokenized-stocks",
+    "prepaid",
+    "instinct"
   ],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Vaaya",
-    "shortDescription": "Paid superpowers for your agent — pay-per-call, no API keys.",
-    "longDescription": "Vaaya turns your agent into one that can buy what it needs. Instead of wiring up a dozen vendor API keys, the agent asks Vaaya's conversational consult tool for anything it can't do, gets back the exact call to run, and executes it with use — billed pay-per-call on success. Media & video generation, product demo videos, web search & scraping, deep/market research, GTM & lead enrichment, code sandboxes, browser automation, email, and memory. The agent never sees upstream URLs or API keys; failed calls are never charged.",
+    "shortDescription": "Paid APIs and tokenized shares for agents, funded through Vaaya.",
+    "longDescription": "Pay for APIs and buy supported tokenized shares with prepaid funds. Search, research, media, data, compute and more through one Vaaya account. Agent purchase and Instinct funding guide: https://vaaya.ai/llms.txt Use stocks list and portfolio to discover supported tickers and prepaid buying power, then stocks buy and order for authorized purchases. Instinct can complete a prepaid Checkout using its saved card when the user authorizes the pack amount.",
     "developerName": "Vaaya",
     "category": "Productivity",
     "websiteURL": "https://vaaya.ai",
@@ -42,9 +45,14 @@
     "defaultPrompt": [
       "Use Vaaya to generate a hero video for our landing page in 16:9.",
       "Use Vaaya to find 50 heads of RevOps at Series-B SaaS companies with verified emails.",
-      "Use Vaaya to do deep research on our competitors with cited sources."
+      "Use Vaaya to do deep research on our competitors with cited sources.",
+      "Show me the tokenized stocks I can buy with Vaaya and my prepaid buying power."
     ],
     "logo": "./assets/logo-400.png",
-    "composerIcon": "./assets/logo-400.png"
+    "composerIcon": "./assets/logo-400.png",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ]
   }
 }

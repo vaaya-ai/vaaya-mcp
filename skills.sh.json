@@ -3,8 +3,10 @@
   "groupings": [
     {
       "title": "Vaaya",
-      "description": "Give your agent paid superpowers — one consult-first MCP server for media & video generation, product demo videos, web search & scraping, deep/market research, GTM & lead enrichment, code sandboxes, browser automation, email, and memory. Pay-per-call, no API keys.",
-      "skills": ["vaaya"]
+      "description": "Pay for APIs and buy supported tokenized shares with prepaid funds. Search, research, media, data, compute and more through one Vaaya account. Agent purchase and Instinct funding guide: https://vaaya.ai/llms.txt",
+      "skills": [
+        "vaaya"
+      ]
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "ai.vaaya/mcp",
+  "title": "Vaaya",
+  "description": "Paid APIs and tokenized shares for agents. Prepaid funding, including authorized Instinct checkout.",
+  "version": "0.6.6",
+  "websiteUrl": "https://vaaya.ai",
+  "repository": {
+    "url": "https://github.com/vaaya-ai/vaaya-mcp",
+    "source": "github"
+  },
+  "icons": [
+    {
+      "src": "https://vaaya.ai/icon.png",
+      "sizes": [
+        "512x512"
+      ],
+      "mimeType": "image/png"
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://vaaya.ai/mcp"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@vaaya/mcp",
+      "version": "0.6.6",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
