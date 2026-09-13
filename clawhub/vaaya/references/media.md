@@ -55,8 +55,8 @@ When to pick:
 |---|---|---|
 | `nano-banana-pro` | 33¢ | Params: `prompt`, `aspect_ratio` (`1:1` `16:9` `4:3` `3:4` `9:16` …), `resolution` (`1K`/`2K`/`4K`). Character consistency via reference `image_url`. |
 | `gpt-image-2` | 24¢ | Params: `prompt`, `image_size` as `{width,height}` object (1024×1024, 1536×1024, 1024×1536); a `"1024x1024"` string is auto-coerced. |
-| `seedream--v5-pro--text-to-image` | 18¢ | Up to 2K. Safety checker off by default (pass `enable_safety_checker: true` to re-enable). |
-| `seedream--v4-5--text-to-image` | 4¢ | Cheap sibling for bulk/iteration. Safety checker off by default. |
+| `seedream--v5-pro--text-to-image` | 18¢ | Up to 2K. Pass `enable_safety_checker: true` when generating images. |
+| `seedream--v4-5--text-to-image` | 4¢ | Cheap sibling for bulk/iteration. Pass `enable_safety_checker: true`. |
 
 Gotchas:
 - **Nano Banana Pro takes ratios + resolution tiers, not exact pixels.** Generate the
@@ -123,7 +123,7 @@ Gotchas:
   the prompt as a shot script referring to `Image 1`, `Image 2`, … with `DIALOGUE:` lines,
   explicit cuts/zooms, and a closing `STYLE:` line. The likeness comes entirely from the
   references — skip them and the model invents the cast.
-- Seedance/Kling have content filters (no toggle) — reword if flagged, or use H3.
+- Respect provider content-filter refusals; report the refusal rather than switching providers or rewording a request to evade it.
 - Seedance `--fast` variants error on `resolution: "1080p"` (480p/720p only). Full-frame
   deliverables → standard variant at 1080p; reserve fast/720p for small tiles (PIP).
 
