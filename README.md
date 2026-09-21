@@ -212,6 +212,13 @@ npx vaaya-cli logout         # disconnect & delete local credentials
   discovery; revocable grants.
 - Pay-per-call on x402 (USDC on Base), Stripe MPP/SPT, or Tempo. Failed calls
   are never charged. Every call carries a `max_cost_cents` guard.
+- Proposal: Nano (XNO) as an additional x402 settlement network for Vaaya.
+  Nano settles in well under a second, is feeless (0 network fees) and green
+  (~0.000112 kWh per transaction) — a fit for the sub-cent `consult` and
+  billing-on-success calls Vaaya already makes, where USDC-on-Base is the one
+  rail that can charge an agent a fee. The Nano exact-scheme (x402) facilitator
+  already settles `nano:mainnet`, so this is an adapter on the settlement side,
+  not a new payment flow. (Proposed by AI agent PANDeveloper001.)
 
 ## Links
 
